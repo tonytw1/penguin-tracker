@@ -1,12 +1,15 @@
 package nz.gen.wellington.penguin.model;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.Date;
+
+import nz.gen.wellington.penguin.utils.DateTimeHelper;
 
 public class Location implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	
+		
 	private Date date;
 	private double longitude;
 	private double latitude;
@@ -35,7 +38,11 @@ public class Location implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Location [longitude=" + longitude + ", latitude=" + latitude + "]";
+		DecimalFormat df = new DecimalFormat("#.##");
+		String latitudeLabel = latitude < 0 ? "S" : "N";
+		String longitudeLabel = longitude < 0 ? "W" : "E";		
+		return df.format(latitude > 0 ? latitude : latitude * -1)  + latitudeLabel + ", " + 
+			df.format(longitude >0 ? longitude : longitude * -1) + longitudeLabel + " at " + DateTimeHelper.format(date, "HH:mm, dd MMM yyyy");
 	}
 
 	public void setDate(Date date) {
@@ -48,6 +55,31 @@ public class Location implements Serializable {
 
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Location other = (Location) obj;
+		if (date == null) {
+			if (other.date != null)
+				return false;
+		} else if (!date.equals(other.date))
+			return false;
+		return true;
 	}
 	
 }

@@ -33,7 +33,7 @@ public class LocationUpdateService extends Service {
     	super.onStart(intent, startId);
     	if (intent != null && intent.getAction() != null && intent.getAction().equals("RUN")) {
     		Log.i(TAG, "Got start command");                   
-    		internalRunnable = new LocationUpdateRunnable((NotificationManager) this.getSystemService(NOTIFICATION_SERVICE));
+    		internalRunnable = new LocationUpdateRunnable(this.getApplicationContext(), (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE));
     		thread = new Thread(this.internalRunnable);
     		thread.setDaemon(true);
     		thread.start();

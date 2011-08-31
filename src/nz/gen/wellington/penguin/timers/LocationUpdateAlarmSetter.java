@@ -14,7 +14,7 @@ public class LocationUpdateAlarmSetter {
     private static final String TAG = "LocationUpdateAlarmSetter";
 
     private static final long ONE_MINUTE = 60000;
-    private static final long ONE_HOUR = ONE_MINUTE; // TODO Dev mode setting
+    private static final long ONE_HOUR = 60 * ONE_MINUTE;
 
 	public void setHourlyContentUpdateAlarm(Context context) {
 	    AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

@@ -4,9 +4,11 @@ import java.util.List;
 
 import nz.gen.wellington.penguin.data.CachingLocationService;
 import nz.gen.wellington.penguin.model.Location;
+import nz.gen.wellington.penguin.timers.LocationUpdateService;
 import nz.gen.wellington.penguin.utils.DateTimeHelper;
 import nz.gen.wellington.penguin.views.GeoPointFactory;
 import nz.gen.wellington.penguin.views.LocationsItemizedOverlay;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -42,6 +44,13 @@ public class main extends MapActivity {
         populateMapPoints(mapView);        
     }
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);		
+		notificationManager.cancel(LocationUpdateService.UPDATE_COMPLETE_NOTIFICATION_ID);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 1, 0, "Refresh");
@@ -100,7 +109,7 @@ public class main extends MapActivity {
 	private OverlayItem createOverlayForLocation(Location location) {
 		GeoPoint point = GeoPointFactory.createGeoPointForLatLong(location.getLongitude(), location.getLatitude());
 		final String title = DateTimeHelper.calculateTimeTaken(location.getDate(), DateTimeHelper.now()) + " ago";		
-		final String snippet = location.getLatitude() + ", " + location.getLongitude() + " at " + DateTimeHelper.format(location.getDate(), "HH:mm, dd MMM yyyy");		
+		final String snippet = location.toString();		
 		OverlayItem overlayitem = new OverlayItem(point, title, snippet);
 		itemizedOverlay.addOverlay(overlayitem);
 		return overlayitem;
