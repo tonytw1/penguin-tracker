@@ -1,7 +1,12 @@
 package nz.gen.wellington.penguin.timers;
 
+import java.util.List;
+
 import nz.gen.wellington.penguin.R;
 import nz.gen.wellington.penguin.main;
+import nz.gen.wellington.penguin.data.LiveLocationService;
+import nz.gen.wellington.penguin.data.LocalLocationService;
+import nz.gen.wellington.penguin.model.Location;
 import nz.gen.wellington.penguin.utils.DateTimeHelper;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -30,9 +35,30 @@ public class LocationUpdateRunnable implements Runnable {
 		 createWakeLock();
 		 running = true;
 		 while(running) {
-             // TODO do something             
-             announceBatchFinished();
-             sendNotification();                     
+			 
+			 LocalLocationService localLocationService = new LocalLocationService();
+			 List<Location> existingLocations = localLocationService.getLocations(context);
+			 
+			 LiveLocationService liveLocationService = new LiveLocationService();
+			 List<Location> fetchedLocations = liveLocationService.getLocations(context);
+			 if (fetchedLocations != null) {
+				 Log.i(TAG, "Replacing cached locations with fetched locations");
+				 localLocationService.saveLocations(context, fetchedLocations);
+			 }
+			 
+			 if (existingLocations != null && !existingLocations.isEmpty() && fetchedLocations != null && !fetchedLocations.isEmpty()) {
+				 
+				 Location existingLatest = existingLocations.get(0);
+				 Location newLatest = fetchedLocations.get(0);
+				 
+				 Log.i(TAG, "Comparing most recent locations: " + existingLatest.getDate() + newLatest.getDate());
+				 if (!existingLatest.equals(newLatest)) {
+					 Log.i(TAG, "A new location has been found in the latest update");
+					 sendNotification();                     
+				 }				 
+			 }
+			 
+			 announceBatchFinished();
              running = false;
 		 }
      
@@ -52,13 +78,12 @@ public class LocationUpdateRunnable implements Runnable {
 
 		final CharSequence contentTitle = "Content update complete";
 		final CharSequence contentText = "Fetched update";
-		final String fullReport = "Done";
+		final String fullReport = "A new location fix has been found in the latest update";
 
 		Intent notificationIntent = new Intent(context, main.class);
 		notificationIntent.putExtra("report", fullReport);
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-				notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+		
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
 		notificationManager.notify(LocationUpdateService.UPDATE_COMPLETE_NOTIFICATION_ID, notification);
 	}
