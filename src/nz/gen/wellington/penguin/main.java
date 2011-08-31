@@ -7,9 +7,12 @@ import nz.gen.wellington.penguin.model.Location;
 import nz.gen.wellington.penguin.utils.DateTimeHelper;
 import nz.gen.wellington.penguin.views.GeoPointFactory;
 import nz.gen.wellington.penguin.views.LocationsItemizedOverlay;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -38,6 +41,29 @@ public class main extends MapActivity {
         
         populateMapPoints(mapView);        
     }
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, 1, 0, "Refresh");
+		menu.add(0, 2, 0, "About");
+		menu.add(0, 3, 0, "Settings");
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		 switch (item.getItemId()) {
+		    case 1:
+		        return true;
+		    case 2:
+		    	Intent intent = new Intent(this, about.class);
+		    	this.startActivity(intent);
+		        return true;
+		    case 3:
+		    	return true;		   
+		 }
+		 return false;
+	}
 	
 	@Override
 	protected boolean isRouteDisplayed() {
