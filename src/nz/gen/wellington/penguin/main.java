@@ -10,6 +10,7 @@ import nz.gen.wellington.penguin.views.LocationsItemizedOverlay;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -54,9 +55,8 @@ public class main extends MapActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 1, 0, "Feed");
+		menu.add(0, 1, 0, "Source Feed");
 		menu.add(0, 2, 0, "About");
-		menu.add(0, 3, 0, "Settings");
 		return true;
 	}
 	
@@ -64,7 +64,12 @@ public class main extends MapActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		 switch (item.getItemId()) {
 		    case 1:
+		    	String url = "http://www.nzemperor.com/";  
+		    	Intent i = new Intent(Intent.ACTION_VIEW);  
+		    	i.setData(Uri.parse(url));  
+		    	startActivity(i);  		    	   
 		        return true;
+		        
 		    case 2:
 		    	Intent intent = new Intent(this, about.class);
 		    	this.startActivity(intent);
