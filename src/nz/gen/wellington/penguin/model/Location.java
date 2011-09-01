@@ -41,7 +41,7 @@ public class Location implements Serializable {
 		String latitudeLabel = latitude < 0 ? "S" : "N";
 		String longitudeLabel = longitude < 0 ? "W" : "E";		
 		return df.format(latitude > 0 ? latitude : latitude * -1)  + latitudeLabel + ", " + 
-			df.format(longitude >0 ? longitude : longitude * -1) + longitudeLabel + " at " + DateTimeHelper.format(date, "HH:mm, dd MMM yyyy");
+			df.format(longitude >0 ? longitude : longitude * -1) + longitudeLabel + " at " + DateTimeHelper.format(date, "HH:mm, d MMM yyyy");
 	}
 
 	public void setDate(Date date) {

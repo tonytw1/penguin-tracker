@@ -1,4 +1,4 @@
-package nz.gen.wellington.penguin.data;
+package nz.gen.wellington.penguin.data.kml;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +15,13 @@ import android.util.Log;
 public class KMLHandler extends HandlerBase {
 
 	private static final String TAG = "KMLHandler";
-
+	
 	private Location currentPoint = null;
 	private StringBuilder currentField;
 	private List<Location> points;
 	
 	public List<Location> getPoints() {
-		Log.d(TAG, "Returning: " + points);
+		Log.d(TAG, "Returning " + points.size() + "points");
 		return points;
 	}
 	
@@ -37,7 +37,6 @@ public class KMLHandler extends HandlerBase {
 		if (name.equals("Placemark")) {
 			final boolean isNormalPoint = attributes.getValue("id") == null;
 			if (isNormalPoint) {
-				Log.d(TAG, "Starting point: " + name);
 				currentPoint = new Location();
 			}
 		}
@@ -67,7 +66,6 @@ public class KMLHandler extends HandlerBase {
 		}
 		
 		if (name.equals("Placemark") && currentPoint != null) {
-			Log.d(TAG, "Closing point");
 			points.add(new Location(currentPoint.getDate(), currentPoint.getLongitude(), currentPoint.getLatitude()));
 			currentPoint = null;
 		}		

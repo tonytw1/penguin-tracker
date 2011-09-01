@@ -1,4 +1,4 @@
-package nz.gen.wellington.penguin.data;
+package nz.gen.wellington.penguin.data.kml;
 
 import java.io.IOException;
 import java.io.InputStream;

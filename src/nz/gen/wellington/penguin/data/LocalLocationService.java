@@ -24,15 +24,7 @@ public class LocalLocationService implements LocationService {
 		if (!isLocallyCached(context)) {
 			return null;
 		}
-		
-		Date modificationTime = FileService.getModificationTime(context, CACHE_FILE_NAME);
-		int age = DateTimeHelper.durationInSecords(modificationTime, DateTimeHelper.now());
-		Log.i(TAG, "Cache file age is: " + age);
-		if (age > CACHE_TTL) {
-			Log.i(TAG, "Ignoring expired cache file.");
-			return null;
-		}
-		
+				
 		Log.i(TAG, "Reading from disk: " + CACHE_FILE_NAME);
 		try {
 			FileInputStream fis = FileService.getFileInputStream(context, CACHE_FILE_NAME);
@@ -71,7 +63,14 @@ public class LocalLocationService implements LocationService {
 		Log.d(TAG, "Finished writing to disk: '" + CACHE_FILE_NAME);
 	}
 	
-	private boolean isLocallyCached(Context context) {
+	public boolean isCurrent(Context context) {
+		Date modificationTime = FileService.getModificationTime(context, CACHE_FILE_NAME);
+		int age = DateTimeHelper.durationInSecords(modificationTime, DateTimeHelper.now());
+		Log.i(TAG, "Cache file age is: " + age);
+		return age < CACHE_TTL;
+	}
+	
+	public boolean isLocallyCached(Context context) {
 		boolean locallyCached = FileService.existsLocally(context, CACHE_FILE_NAME);
 		Log.i(TAG, "Locations are locally cached: " + locallyCached);
 		return locallyCached;

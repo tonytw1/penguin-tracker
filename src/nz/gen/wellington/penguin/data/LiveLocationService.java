@@ -3,6 +3,7 @@ package nz.gen.wellington.penguin.data;
 import java.io.InputStream;
 import java.util.List;
 
+import nz.gen.wellington.penguin.data.kml.KMLParser;
 import nz.gen.wellington.penguin.model.Location;
 import nz.gen.wellington.penguin.network.HttpFetcher;
 import android.content.Context;

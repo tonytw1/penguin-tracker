@@ -2,10 +2,9 @@ package nz.gen.wellington.penguin;
 
 import java.util.List;
 
-import nz.gen.wellington.penguin.data.CachingLocationService;
+import nz.gen.wellington.penguin.data.LocationDAO;
 import nz.gen.wellington.penguin.model.Location;
 import nz.gen.wellington.penguin.timers.LocationUpdateService;
-import nz.gen.wellington.penguin.utils.DateTimeHelper;
 import nz.gen.wellington.penguin.views.GeoPointFactory;
 import nz.gen.wellington.penguin.views.LocationsItemizedOverlay;
 import android.app.NotificationManager;
@@ -40,7 +39,9 @@ public class main extends MapActivity {
         
         MapView mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
+        // TODO center on release point
         
+        // TODO Needs to happen on a background thread
         populateMapPoints(mapView);        
     }
 	
@@ -53,7 +54,7 @@ public class main extends MapActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 1, 0, "Refresh");
+		menu.add(0, 1, 0, "Feed");
 		menu.add(0, 2, 0, "About");
 		menu.add(0, 3, 0, "Settings");
 		return true;
@@ -84,7 +85,7 @@ public class main extends MapActivity {
         drawable = this.getResources().getDrawable(R.drawable.marker);
         itemizedOverlay = new LocationsItemizedOverlay(drawable, mapView);
         
-        CachingLocationService locationService = new CachingLocationService();
+        LocationDAO locationService = new LocationDAO();
         List<Location> locations = locationService.getLocations(this.getBaseContext());
         if (locations != null) {
         	GeoPoint lastPoint = null;

@@ -15,5 +15,10 @@ public class about extends Activity {
         WebView about = (WebView) findViewById(R.id.about);
         about.loadData("<h2>About</h2>", "text/html", "UTF-8");
     }
-	
+
+	// TODO Credit:
+	// Flickr image
+	// sirtrack
+	// @nzemperor	
+	// github link
 }
