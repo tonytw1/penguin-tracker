@@ -3,11 +3,11 @@
     <ImageView android:src="@drawable/icon" android:layout_height="fill_parent" android:layout_width="wrap_content" android:id="@+id/penguin" android:padding="3pt"></ImageView>
 	
 	<LinearLayout android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:orientation="vertical">
-		<TextView android:id="@+id/heading" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="" android:textColor="#000" android:textSize="9pt"></TextView>
+		<TextView android:id="@+id/heading" android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="" android:textColor="#000" android:textSize="8pt"></TextView>
 		<TextView android:id="@+id/snippet" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textColor="#999" android:textSize="6pt"></TextView>
 		<LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout2" android:orientation="horizontal" android:layout_height="fill_parent" android:layout_gravity="center_vertical">
-			<TextView android:layout_height="wrap_content" android:text="0" android:id="@+id/delta" android:layout_width="wrap_content" android:textColor="#000" android:textSize="8pt" android:layout_gravity="center_vertical"></TextView>
-			<TextView android:layout_height="wrap_content" android:id="@+id/deltaDescription" android:layout_width="wrap_content" android:text="kilometers south of previous fix" android:textColor="#999" android:textSize="4pt" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:paddingLeft="2pt"></TextView>
+			<TextView android:layout_height="wrap_content" android:text="0" android:id="@+id/delta" android:layout_width="wrap_content" android:textColor="#000" android:textSize="9pt" android:layout_gravity="center_vertical"></TextView>
+			<TextView android:layout_height="wrap_content" android:id="@+id/deltaDescription" android:layout_width="wrap_content" android:text="kilometers south of previous fix" android:textColor="#555" android:textSize="4pt" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:paddingLeft="2pt"></TextView>
 		</LinearLayout>		
 	</LinearLayout>
 		

@@ -3,6 +3,8 @@ package nz.gen.wellington.penguin.timers;
 import java.util.Calendar;
 import java.util.Date;
 
+import nz.gen.wellington.penguin.config.Config;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -13,16 +15,15 @@ public class LocationUpdateAlarmSetter {
 
     private static final String TAG = "LocationUpdateAlarmSetter";
 
-    private static final long ONE_MINUTE = 60000;
-    private static final long ONE_HOUR = 60 * ONE_MINUTE;
+    private static final long INTERVAL = Config.CACHE_TTL * 1000;
 
 	public void setHourlyContentUpdateAlarm(Context context) {
 	    AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 	    PendingIntent pi = makeContentUpdatePendingIntent(context);
 	    
-	    final long timeInMillis = getNextHourlyAutoSyncTime();
+	    final long timeInMillis = getNextAutoSyncTime();
 	    Log.i(TAG, "Setting sync alarm for: " + new Date(timeInMillis).toLocaleString());
-	    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, ONE_HOUR, pi);
+	    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, INTERVAL, pi);
 	}
 	
     private PendingIntent makeContentUpdatePendingIntent(Context context) {
@@ -31,9 +32,9 @@ public class LocationUpdateAlarmSetter {
             return pi;
     }
     
-    private long getNextHourlyAutoSyncTime() {
+    private long getNextAutoSyncTime() {
         Calendar time = Calendar.getInstance();                                 
-        long timeInMillis = time.getTimeInMillis() + ONE_HOUR;          
+        long timeInMillis = time.getTimeInMillis() + INTERVAL;          
         return timeInMillis;
     }
     

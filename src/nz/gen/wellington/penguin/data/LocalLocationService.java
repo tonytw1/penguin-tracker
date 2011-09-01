@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.List;
 
+import nz.gen.wellington.penguin.config.Config;
 import nz.gen.wellington.penguin.model.Location;
 import nz.gen.wellington.penguin.utils.DateTimeHelper;
 import nz.gen.wellington.penguin.utils.FileService;
@@ -16,7 +17,6 @@ import android.util.Log;
 
 public class LocalLocationService implements LocationService {
 	
-	private static final int CACHE_TTL = 60 * 60;
 	private static final String TAG = "LocalLocationService";	
 	private static final String CACHE_FILE_NAME = "locations.ser";
 
@@ -32,8 +32,7 @@ public class LocalLocationService implements LocationService {
 			List<Location> loaded = (List<Location>) in.readObject();
 			in.close();
 			
-			if (loaded != null) {
-				Log.i(TAG, "Loaded " + loaded + " locations");
+			if (loaded != null) {			
 				return loaded;
 			} else {
 				Log.w(TAG, "Article bundle was null after read attempt");
@@ -67,7 +66,7 @@ public class LocalLocationService implements LocationService {
 		Date modificationTime = FileService.getModificationTime(context, CACHE_FILE_NAME);
 		int age = DateTimeHelper.durationInSecords(modificationTime, DateTimeHelper.now());
 		Log.i(TAG, "Cache file age is: " + age);
-		return age < CACHE_TTL;
+		return age < Config.CACHE_TTL;
 	}
 	
 	public boolean isLocallyCached(Context context) {

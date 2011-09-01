@@ -17,7 +17,6 @@ public class LocationUpdateRunnable implements Runnable {
 		this.notificationManager = notificationManager;
 	}
 	
-	@Override
 	public void run() {
 		 running = true;
 		 while(running) {
