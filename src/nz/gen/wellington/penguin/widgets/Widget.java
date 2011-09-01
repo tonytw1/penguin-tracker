@@ -7,7 +7,6 @@ import nz.gen.wellington.penguin.main;
 import nz.gen.wellington.penguin.data.CachingLocationService;
 import nz.gen.wellington.penguin.data.LocationService;
 import nz.gen.wellington.penguin.model.Location;
-import nz.gen.wellington.penguin.utils.DateTimeHelper;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -39,12 +38,11 @@ public class Widget extends AppWidgetProvider {
 	}
 	
 	private void populateArticle(RemoteViews widgetView, Context context, Location location) {
-		widgetView.setTextViewText(R.id.heading, DateTimeHelper.calculateTimeTaken(location.getDate(), DateTimeHelper.now()));
-		final String snippet = location.getLatitude() + ", " + location.getLongitude() + " at " + DateTimeHelper.format(location.getDate(), "HH:mm, dd MMM yyyy");
-		widgetView.setTextViewText(R.id.snippet, snippet);
+		widgetView.setTextViewText(R.id.heading, location.timeAgo());
+		widgetView.setTextViewText(R.id.snippet, location.toString());
 		
 		PendingIntent pendingIntent = createShowArticleIntent(context);
-		widgetView.setOnClickPendingIntent(R.id.heading, pendingIntent);
+		widgetView.setOnClickPendingIntent(R.id.widgetLayout, pendingIntent);
 	}
 
 	private PendingIntent createShowArticleIntent(Context context) {

@@ -108,7 +108,7 @@ public class main extends MapActivity {
 	
 	private OverlayItem createOverlayForLocation(Location location) {
 		GeoPoint point = GeoPointFactory.createGeoPointForLatLong(location.getLongitude(), location.getLatitude());
-		final String title = DateTimeHelper.calculateTimeTaken(location.getDate(), DateTimeHelper.now()) + " ago";		
+		final String title = location.timeAgo();	
 		final String snippet = location.toString();		
 		OverlayItem overlayitem = new OverlayItem(point, title, snippet);
 		itemizedOverlay.addOverlay(overlayitem);

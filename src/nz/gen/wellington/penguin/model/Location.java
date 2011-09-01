@@ -21,7 +21,6 @@ public class Location implements Serializable {
 	}
 
 	public Location() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Date getDate() {
@@ -80,6 +79,10 @@ public class Location implements Serializable {
 		} else if (!date.equals(other.date))
 			return false;
 		return true;
+	}
+
+	public String timeAgo() {
+		return DateTimeHelper.calculateTimeTaken(date, DateTimeHelper.now()) + " ago";
 	}
 	
 }
