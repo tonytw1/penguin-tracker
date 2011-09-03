@@ -12,6 +12,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 
 public class LocationUpdater {
@@ -51,8 +52,9 @@ public class LocationUpdater {
 	private void sendNotification(Location location, Context context, NotificationManager notificationManager) {		 
 		int icon = R.drawable.icon;
 		CharSequence tickerText = "Location update received";
-		Notification notification = new Notification(icon, tickerText, DateTimeHelper.now().getTime());
-
+		Notification notification = new Notification(icon, tickerText, DateTimeHelper.now().getTime());		
+		notification.sound = Uri.parse("android.resource://nz.gen.wellington.penguin/raw/emperor");
+		
 		final CharSequence contentTitle = "Location update received";
 		final CharSequence contentText = location.toString();
 		
@@ -60,6 +62,8 @@ public class LocationUpdater {
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 		
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+		
+		Log.i(TAG, "Raising new location notification");
 		notificationManager.notify(LocationUpdateService.UPDATE_COMPLETE_NOTIFICATION_ID, notification);
 	}
 	
