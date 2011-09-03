@@ -57,6 +57,7 @@ public class main extends MapActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 1, 0, "Source Feed");
 		menu.add(0, 2, 0, "About");
+		menu.add(0, 3, 0, "Settings");
 		return true;
 	}
 	
@@ -71,10 +72,11 @@ public class main extends MapActivity {
 		        return true;
 		        
 		    case 2:
-		    	Intent intent = new Intent(this, about.class);
-		    	this.startActivity(intent);
-		        return true;
+		    	this.startActivity(new Intent(this, about.class));
+		    	return true;
+		    	
 		    case 3:
+		    	this.startActivity(new Intent(this, preferences.class));
 		    	return true;		   
 		 }
 		 return false;

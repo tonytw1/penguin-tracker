@@ -5,6 +5,8 @@ import java.util.List;
 import nz.gen.wellington.penguin.model.Location;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 public class LocationDAO implements LocationService {
 	
@@ -19,10 +21,15 @@ public class LocationDAO implements LocationService {
 			}
 		}
 		
-		LocationUpdater locationUpdater = new LocationUpdater();
-		locations = locationUpdater.updateLocations(context, (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE));		
-		if (locations != null) {
-			return locations;
+		
+		PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		if (prefs != null && prefs.getBoolean("sync", true)) {
+			LocationUpdater locationUpdater = new LocationUpdater();
+			locations = locationUpdater.updateLocations(context, (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE));		
+			if (locations != null) {
+				return locations;
+			}
 		}
 		
 		if (localLocationService.isLocallyCached(context)) {
