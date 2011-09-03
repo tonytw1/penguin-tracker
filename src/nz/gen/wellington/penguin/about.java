@@ -14,7 +14,7 @@ public class about extends Activity {
         setContentView(R.layout.about);       
         
         StringBuilder text = new StringBuilder();
-        text.append("<p>The <a href=\"http://blog.tepapa.govt.nz/2011/06/29/the-global-penguin-%E2%80%93-part-2-the-young-emperor-penguin-pushes-the-boundaries-and-is-taken-into-care/\">lost emperor penguin 'Happy Feet'</a> is currently making his way home after recovering at Wellington Zoo. ");
+        text.append("<p>The <a href=\"http://tinyurl.com/3osqgtl/\">lost emperor penguin 'Happy Feet'</a> is currently making his way home after recovering at Wellington Zoo. ");
         text.append("<p>Happy Feet is wearing a <a href=\"http://blog.tepapa.govt.nz/2011/08/29/happy-feet-gets-technological/\">Sirtrack KiwiSat 202 Satellite Transmitter</a> which will track his progress after he is released into the Southern Ocean. ");
         text.append("This tracking data is been published on the <a href=\"http://www.nzemperor.com/\">@NZEmperor</a> website.</p>");
         
