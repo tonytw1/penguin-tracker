@@ -15,8 +15,11 @@ public class LiveLocationService implements LocationService {
 	public List<Location> getLocations(Context context) {
 		HttpFetcher httpFetcher = new HttpFetcher(context);
 		InputStream inputStream = httpFetcher.httpFetch(FEED_URL);
-		KMLParser parser = new KMLParser();
-		return parser.parse(inputStream);
+		if (inputStream != null) {
+			KMLParser parser = new KMLParser();
+			return parser.parse(inputStream);
+		}
+		return null;
 	}
 
 }
