@@ -1,5 +1,6 @@
 package nz.gen.wellington.penguin;
 
+import java.util.Collections;
 import java.util.List;
 
 import nz.gen.wellington.penguin.data.LocationDAO;
@@ -29,7 +30,6 @@ public class main extends MapActivity {
 	private static final String TAG = "main";
 	
 	List<Overlay> mapOverlays;
-	Drawable drawable;
 	LocationsItemizedOverlay itemizedOverlay;
 
 	@Override
@@ -89,20 +89,17 @@ public class main extends MapActivity {
 	
 	private void populateMapPoints(MapView mapView) {
 		mapOverlays = mapView.getOverlays();
-        drawable = this.getResources().getDrawable(R.drawable.marker);
-        itemizedOverlay = new LocationsItemizedOverlay(drawable, mapView);
+        Drawable previousMarker = this.getResources().getDrawable(R.drawable.previousmarker);
+        previousMarker.setBounds(-10, -10, 10, 10);
+        
+        Drawable marker = this.getResources().getDrawable(R.drawable.marker);
+
+        itemizedOverlay = new LocationsItemizedOverlay(marker, mapView);
         
         LocationDAO locationService = new LocationDAO();
         List<Location> locations = locationService.getLocations(this.getBaseContext());
         if (locations != null) {
-        	GeoPoint lastPoint = null;
-        	if (!locations.isEmpty()) {
-        		Location location = locations.get(0);
-        		Log.i(TAG, "Adding map point for: " + location);
-	        	OverlayItem overlayitem = createOverlayForLocation(location);
-	        	lastPoint = overlayitem.getPoint();
-			}
-	        
+        	GeoPoint lastPoint = plotAllPoints(locations, marker, previousMarker);	        
 	        if (lastPoint != null) {
 	        	mapView.getController().animateTo(lastPoint);
 	        	mapView.getController().setZoom(7);
@@ -114,12 +111,27 @@ public class main extends MapActivity {
         }        
 	}
 	
-	private OverlayItem createOverlayForLocation(Location location) {
+	private GeoPoint plotAllPoints(List<Location> locations, Drawable marker, Drawable previousMarker) {
+		GeoPoint lastPoint = null;
+		Collections.reverse(locations);
+		int pointCount = 0;
+		for (Location location : locations) {
+			pointCount++;
+			Log.i(TAG, "Adding map point for: " + location + pointCount + ", " + locations.size());
+			OverlayItem overlayitem = createOverlayForLocation(location, pointCount == locations.size() ? marker : previousMarker);
+			lastPoint = overlayitem.getPoint();
+		}
+		return lastPoint;
+	}
+	
+	
+	private OverlayItem createOverlayForLocation(Location location, Drawable marker) {
 		GeoPoint point = GeoPointFactory.createGeoPointForLatLong(location.getLongitude(), location.getLatitude());
 		final String title = location.timeAgo();	
 		final String snippet = location.toString();		
 		OverlayItem overlayitem = new OverlayItem(point, title, snippet);
-		itemizedOverlay.addOverlay(overlayitem);
+		overlayitem.setMarker(marker);
+        itemizedOverlay.addOverlay(overlayitem);
 		return overlayitem;
 	}
 	
