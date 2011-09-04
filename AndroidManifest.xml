@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="nz.gen.wellington.penguin" android:versionName="1.01" android:versionCode="2">
+	package="nz.gen.wellington.penguin" android:versionName="1.02" android:versionCode="3">
 	  <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="4"/>
 	<uses-permission android:name="android.permission.INTERNET" />
 		<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
