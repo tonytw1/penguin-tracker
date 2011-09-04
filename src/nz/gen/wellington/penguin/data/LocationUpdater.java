@@ -53,7 +53,7 @@ public class LocationUpdater {
 		int icon = R.drawable.icon;
 		CharSequence tickerText = "Location update received";
 		Notification notification = new Notification(icon, tickerText, DateTimeHelper.now().getTime());		
-		notification.sound = Uri.parse("android.resource://nz.gen.wellington.penguin/raw/emperor");
+		//notification.sound = Uri.parse("android.resource://nz.gen.wellington.penguin/raw/emperor");
 		
 		final CharSequence contentTitle = "Location update received";
 		final CharSequence contentText = location.toString();
