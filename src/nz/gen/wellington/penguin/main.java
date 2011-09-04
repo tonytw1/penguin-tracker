@@ -102,7 +102,7 @@ public class main extends MapActivity {
         	GeoPoint lastPoint = plotAllPoints(locations, marker, previousMarker);	        
 	        if (lastPoint != null) {
 	        	mapView.getController().animateTo(lastPoint);
-	        	mapView.getController().setZoom(7);
+	        	mapView.getController().setZoom(11);
 	        }	        
 	        mapOverlays.add(itemizedOverlay);
 
