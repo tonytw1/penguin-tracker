@@ -9,6 +9,9 @@ public class Config {
 	public static String FEED_URL = "http://www.nzemperor.com/rest/Position.kml";
 	public static final int CACHE_TTL = 60 * 30;
 	
+	public static final String DARK_RED = "#aa0000";
+	public static final String DARK_GREEN = "#00aa00";
+	
 	public static boolean areUpdatesEnabled(Context context) {
 		PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

@@ -9,6 +9,9 @@
 			android:layout_height="fill_parent" android:clickable="true"
 			android:apiKey="0jcBgjvEKL5Xdlz4enls_Xb6eqD-w4zchEhEsCQ"			
 			/>
-
+			
+		<TextView android:id="@+id/status" android:layout_width="fill_parent" android:layout_height="wrap_content" 
+			android:textColor="#000" android:textSize="6pt" android:padding="3pt"></TextView>
+						
 	</RelativeLayout>
 </LinearLayout>

@@ -3,13 +3,16 @@ package nz.gen.wellington.penguin;
 import java.util.Collections;
 import java.util.List;
 
+import nz.gen.wellington.penguin.config.Config;
 import nz.gen.wellington.penguin.data.LocationDAO;
+import nz.gen.wellington.penguin.data.tracker.TrackerScheduleService;
 import nz.gen.wellington.penguin.model.Location;
 import nz.gen.wellington.penguin.timers.LocationUpdateService;
 import nz.gen.wellington.penguin.views.GeoPointFactory;
 import nz.gen.wellington.penguin.views.LocationsItemizedOverlay;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -43,7 +47,9 @@ public class main extends MapActivity {
         // TODO center on release point
         
         // TODO Needs to happen on a background thread
-        populateMapPoints(mapView);        
+        populateMapPoints(mapView);
+        
+        populateTrackerStatus();
     }
 	
 	@Override
@@ -135,4 +141,15 @@ public class main extends MapActivity {
 		return overlayitem;
 	}
 	
+	private void populateTrackerStatus() {
+        TextView status = (TextView) findViewById(R.id.status);
+        TrackerScheduleService trackerScheduleService = new TrackerScheduleService();
+        status.setText(trackerScheduleService.getTrackerStatus());
+        if (trackerScheduleService.isCurrentlyScheduledToTransmit()) {
+        	status.setTextColor(Color.parseColor(Config.DARK_GREEN));
+        } else {
+        	status.setTextColor(Color.BLACK);
+        }
+	}
+
 }

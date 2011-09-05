@@ -5,6 +5,7 @@ import java.util.List;
 
 import nz.gen.wellington.penguin.R;
 import nz.gen.wellington.penguin.main;
+import nz.gen.wellington.penguin.config.Config;
 import nz.gen.wellington.penguin.data.LocationDAO;
 import nz.gen.wellington.penguin.data.LocationService;
 import nz.gen.wellington.penguin.model.Location;
@@ -56,7 +57,7 @@ public class Widget extends AppWidgetProvider {
 			
 			DecimalFormat df = new DecimalFormat("#.#");
 			widgetView.setTextViewText(R.id.delta, df.format(kilometerDelta * -1));
-			widgetView.setTextColor(R.id.delta, kilometerDelta < 0 ? Color.parseColor("#00aa00") : Color.parseColor("#aa0000"));			
+			widgetView.setTextColor(R.id.delta, kilometerDelta < 0 ? Color.parseColor(Config.DARK_GREEN) : Color.parseColor(Config.DARK_RED));			
 		}
 		
 		PendingIntent pendingIntent = createShowArticleIntent(context);
