@@ -12,8 +12,13 @@ public class Config {
 	public static boolean areUpdatesEnabled(Context context) {
 		PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		final boolean updatesAreEnabled = prefs != null && prefs.getBoolean("sync", true);
-		return updatesAreEnabled;
+		return prefs != null && prefs.getBoolean("sync", true);
+	}
+
+	public static boolean areAudibleNotificationsEnabled(Context context) {
+		PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		return prefs != null && prefs.getBoolean("audible", false);
 	}
 	
 }

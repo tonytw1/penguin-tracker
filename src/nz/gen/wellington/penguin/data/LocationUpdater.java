@@ -4,6 +4,7 @@ import java.util.List;
 
 import nz.gen.wellington.penguin.R;
 import nz.gen.wellington.penguin.main;
+import nz.gen.wellington.penguin.config.Config;
 import nz.gen.wellington.penguin.model.Location;
 import nz.gen.wellington.penguin.timers.LocationUpdateService;
 import nz.gen.wellington.penguin.utils.DateTimeHelper;
@@ -53,7 +54,10 @@ public class LocationUpdater {
 		int icon = R.drawable.icon;
 		CharSequence tickerText = "Location update received";
 		Notification notification = new Notification(icon, tickerText, DateTimeHelper.now().getTime());		
-		//notification.sound = Uri.parse("android.resource://nz.gen.wellington.penguin/raw/emperor");
+		
+		if (Config.areAudibleNotificationsEnabled(context)) {
+			notification.sound = Uri.parse("android.resource://nz.gen.wellington.penguin/raw/emperor");
+		}
 		
 		final CharSequence contentTitle = "Location update received";
 		final CharSequence contentText = location.toString();

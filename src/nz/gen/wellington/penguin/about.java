@@ -29,12 +29,10 @@ public class about extends Activity {
 
         text.append("<p>Penguin image obtained from a Creative Commons licensed photograph by <a href=\"http://www.flickr.com/photos/elisfanclub/5955801117\">Eli Duke</a>.");
         
+        text.append("<p>Emperor penguin sound clip extracted, with the author's permission from the YouTube video '<a href=\"http://www.youtube.com/watch?v=0Haxy5PvCuk\">Emperor Likes Me</a>'.");
+        
         WebView about = (WebView) findViewById(R.id.about);
         about.loadData(text.toString(), "text/html", "UTF-8");
     }
-
-	// TODO Credit:
-	// sirtrack
-	// @nzemperor	
-	// github link
+	
 }
