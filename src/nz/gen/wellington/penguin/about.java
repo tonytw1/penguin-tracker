@@ -16,17 +16,17 @@ public class about extends Activity {
         StringBuilder text = new StringBuilder();
         text.append("<h4>About</h4>");
         
-        text.append("<p>The <a href=\"http://tinyurl.com/3osqgtl/\">lost emperor penguin 'Happy Feet'</a> is currently making his way home after recovering at Wellington Zoo. ");
+        text.append("<p>The <a href=\"http://tinyurl.com/3osqgtl/\">lost emperor penguin 'Happy Feet'</a> is currently making his way home after recovering at Wellington Zoo in New Zealand.");
         text.append("<p>Happy Feet is wearing a <a href=\"http://blog.tepapa.govt.nz/2011/08/29/happy-feet-gets-technological/\">Sirtrack KiwiSat 202 Satellite Transmitter</a> which will track his progress after he is released into the Southern Ocean. ");
         text.append("The tracker signal is processed by the <a href=\"http://www.argos-system.org/html/system/how_it_works_en.html\">Argos satellite network</a> before been ");
         text.append("published on the <a href=\"http://www.nzemperor.com/\">@NZEmperor</a> website.</p>");
         
         text.append("<p>This application periodically polls the tracking feed, raising an Android notification when a new position fix is published. " +
-        		"For convenience all dates and times are displayed using your handset's local time zone.</p>");
+        		"For convenience all dates and times are displayed using your phone's local time zone.</p>");
        
-        text.append("<p>To conserve battery power, the tracker attached to the penguin is programmed to transmit during 2 periods, totaling 7 seven hours, per day. " +
+        text.append("<p>To conserve battery power, the tracker attached to the penguin is programmed to transmit during 2 periods, totalling 7 hours per day. " +
         		"These periods correspond to times when satellites are most likely to be overhead. " +
-        		"Location updates are likely to be clustered  around these transmission windows. The current expected state of the transmitter is shown at the top of the map view.</p> " +
+        		"Location updates are likely to be clustered  around these transmission windows.</p><p>The current expected state of the transmitter is shown at the top of the map view.</p> " +
         		"<p>Penguins can spent a considerable amount of time underwater. Signals cannot be received while the penguin is submerged. There may be days when no reading are received.");
 
         		
