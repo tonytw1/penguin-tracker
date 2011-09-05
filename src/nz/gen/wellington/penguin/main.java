@@ -146,7 +146,7 @@ public class main extends MapActivity {
         TrackerScheduleService trackerScheduleService = new TrackerScheduleService();
         status.setText(trackerScheduleService.getTrackerStatus());
         if (trackerScheduleService.isCurrentlyScheduledToTransmit()) {
-        	status.setTextColor(Color.parseColor(Config.DARK_GREEN));
+        	status.setTextColor(Color.parseColor(Config.VERY_DARK_GREEN));
         } else {
         	status.setTextColor(Color.BLACK);
         }
