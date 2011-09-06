@@ -54,7 +54,7 @@ public class KMLHandler extends HandlerBase {
 	public void endElement(String name) throws SAXException {
 		super.endElement(name);
 		if (name.equals("when") && currentPoint != null) {
-			currentPoint.setDate(DateTimeHelper.parseDate(currentField.toString()));
+			currentPoint.setDate(DateTimeHelper.parseUTCDateTime(currentField.toString()));
 			currentField = null;
 		}
 		

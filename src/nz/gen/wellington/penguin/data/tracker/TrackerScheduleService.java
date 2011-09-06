@@ -2,11 +2,9 @@ package nz.gen.wellington.penguin.data.tracker;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
-
-import android.util.Log;
 
 import nz.gen.wellington.penguin.utils.DateTimeHelper;
+import android.util.Log;
 
 // @NZEmperor "To save battery the tracker is only active from 0800 to 1200 and 1800-2100 UTC every day."
 public class TrackerScheduleService {
@@ -24,9 +22,9 @@ public class TrackerScheduleService {
 	}
 	
 	public boolean isCurrentlyScheduledToTransmit() {
-		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Zulu"));
-		final int utcHours = calendar.get(Calendar.HOUR_OF_DAY);
-		Log.i(TAG, "Current utc time: " + utcHours + ":" + calendar.get(Calendar.MINUTE));
+		final Calendar utcCalendar = DateTimeHelper.getUTCCalender();
+		final int utcHours = utcCalendar.get(Calendar.HOUR_OF_DAY);
+		Log.i(TAG, "Current utc time: " + utcHours + ":" + utcCalendar.get(Calendar.MINUTE));
 		if (utcHours >= 8 && utcHours < 12) {
 			return true;
 		}
@@ -37,27 +35,27 @@ public class TrackerScheduleService {
 	}
 	
 	private Date getNextScheduled() {
-		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Zulu"));
-		final int utcHours = calendar.get(Calendar.HOUR_OF_DAY);		
+		final Calendar utcCalendar = DateTimeHelper.getUTCCalender();
+		final int utcHours = utcCalendar.get(Calendar.HOUR_OF_DAY);		
 		if (utcHours < 8) {
-			calendar.set(Calendar.HOUR_OF_DAY, 8);
-			calendar.set(Calendar.MINUTE, 0);
-			calendar.set(Calendar.SECOND, 0);
-			return calendar.getTime();
+			utcCalendar.set(Calendar.HOUR_OF_DAY, 8);
+			utcCalendar.set(Calendar.MINUTE, 0);
+			utcCalendar.set(Calendar.SECOND, 0);
+			return utcCalendar.getTime();
 		}
 		
 		if (utcHours < 18) {
-			calendar.set(Calendar.HOUR_OF_DAY, 18);
-			calendar.set(Calendar.MINUTE, 0);
-			calendar.set(Calendar.SECOND, 0);		
-			return calendar.getTime();
+			utcCalendar.set(Calendar.HOUR_OF_DAY, 18);
+			utcCalendar.set(Calendar.MINUTE, 0);
+			utcCalendar.set(Calendar.SECOND, 0);		
+			return utcCalendar.getTime();
 		}
 		
-		calendar.set(Calendar.HOUR_OF_DAY, 8);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.add(Calendar.DATE, 1);
-		return calendar.getTime();		
+		utcCalendar.set(Calendar.HOUR_OF_DAY, 8);
+		utcCalendar.set(Calendar.MINUTE, 0);
+		utcCalendar.set(Calendar.SECOND, 0);
+		utcCalendar.add(Calendar.DATE, 1);
+		return utcCalendar.getTime();		
 	}
 	
 }

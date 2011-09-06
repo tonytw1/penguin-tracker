@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import android.util.Log;
 
@@ -11,22 +12,19 @@ public class DateTimeHelper {
 	
 	private static final String TAG = "DateTimeHelper";
 	
-	private static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 	private static final String ZULU_DATA_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 	private static final String ZULU_TIME_ZONE = "Zulu";
 	
-	public static Date parseDate(String dateString) {		
-		SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_TIME_FORMAT);
+	public static Date parseUTCDateTime(String dateString) {		
 		if (dateString.endsWith("Z")) {
-			dateFormat = new SimpleDateFormat(ZULU_DATA_TIME_FORMAT);
+			SimpleDateFormat dateFormat = new SimpleDateFormat(ZULU_DATA_TIME_FORMAT);
 			dateFormat.setTimeZone(java.util.TimeZone.getTimeZone(ZULU_TIME_ZONE));
-		}	
-		 
-		try {
-			return dateFormat.parse(dateString);
-		} catch (ParseException e) {
-			Log.e(TAG, "Failed to parse date '" + dateString +  "': " + e.getMessage());
-		}
+			try {
+				return dateFormat.parse(dateString);
+			} catch (ParseException e) {
+				Log.e(TAG, "Failed to parse date '" + dateString +  "': " + e.getMessage());
+			}
+		}			 
 		return null;
 	}
 
@@ -71,6 +69,10 @@ public class DateTimeHelper {
 		long mills = now.getTime() - startTime.getTime();
 		int seconds = new Long(mills / 1000).intValue();
 		return seconds;
+	}
+	
+	public static Calendar getUTCCalender() {
+		return Calendar.getInstance(TimeZone.getTimeZone(ZULU_TIME_ZONE));
 	}
 	
 }
