@@ -7,10 +7,8 @@ import nz.gen.wellington.penguin.config.Config;
 import nz.gen.wellington.penguin.data.LocationDAO;
 import nz.gen.wellington.penguin.data.tracker.TrackerScheduleService;
 import nz.gen.wellington.penguin.model.Location;
-import nz.gen.wellington.penguin.timers.LocationUpdateService;
 import nz.gen.wellington.penguin.views.GeoPointFactory;
 import nz.gen.wellington.penguin.views.LocationsItemizedOverlay;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -47,13 +45,6 @@ public class main extends MapActivity {
         
         populateTrackerStatus();
     }
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);		
-		notificationManager.cancel(LocationUpdateService.UPDATE_COMPLETE_NOTIFICATION_ID);
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

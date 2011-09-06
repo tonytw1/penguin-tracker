@@ -4,6 +4,7 @@ import java.util.List;
 
 import nz.gen.wellington.penguin.R;
 import nz.gen.wellington.penguin.main;
+import nz.gen.wellington.penguin.notification;
 import nz.gen.wellington.penguin.config.Config;
 import nz.gen.wellington.penguin.model.Location;
 import nz.gen.wellington.penguin.timers.LocationUpdateService;
@@ -41,12 +42,14 @@ public class LocationUpdater {
 	private void checkForAndNotifyOfNewLocationUpdates(List<Location> existingLocations, List<Location> fetchedLocations, Context context, NotificationManager notificationManager) {
 		Location existingLatest = existingLocations.get(0);
 		Location newLatest = fetchedLocations.get(0);		 
-		Log.i(TAG, "Comparing most recent locations: " + existingLatest.getDate() + newLatest.getDate());
+		Log.i(TAG, "Comparing most recent locations: " + existingLatest.getDate() + ":" + newLatest.getDate());
 		if (!existingLatest.equals(newLatest)) {
 			Log.i(TAG, "A new location has been found in the latest update");
 			sendNotification(newLatest, context, notificationManager);		 
 		 } else {
 			 Log.i(TAG, "No new location fixes were found in this update");
+				sendNotification(newLatest, context, notificationManager);		 
+
 		 }
 	}
 	
@@ -62,7 +65,7 @@ public class LocationUpdater {
 		final CharSequence contentTitle = "Location update received";
 		final CharSequence contentText = location.toString();
 		
-		Intent notificationIntent = new Intent(context, main.class);		
+		Intent notificationIntent = new Intent(context, notification.class);		
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 		
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);

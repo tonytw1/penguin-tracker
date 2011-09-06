@@ -33,6 +33,7 @@
 				android:resource="@xml/widget" />
 		</receiver>
 		<activity android:name="preferences"></activity>
+		<activity android:name="notification" android:noHistory="true"></activity>
 
 	</application>
 
