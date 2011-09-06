@@ -25,13 +25,33 @@ public class TrackerScheduleService {
 		final Calendar utcCalendar = DateTimeHelper.getUTCCalender();
 		final int utcHours = utcCalendar.get(Calendar.HOUR_OF_DAY);
 		Log.i(TAG, "Current utc time: " + utcHours + ":" + utcCalendar.get(Calendar.MINUTE));
-		if (utcHours >= 8 && utcHours < 12) {
+		if (isInFirstTransmissionWindow(utcHours)) {
 			return true;
 		}
-		if (utcHours >=18 && utcHours < 21) {
+		if (isInSecondTransmissionWindow(utcHours)) {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean timesAreWithinTheSameTransmissionWindow(Date firstDate, Date secondDate) {
+		Calendar firstUtcCalendar = DateTimeHelper.getUTCCalender();
+		firstUtcCalendar.setTime(firstDate);		
+		
+		Calendar secondUtcCalendar = DateTimeHelper.getUTCCalender();
+		firstUtcCalendar.setTime(secondDate);
+		
+		final boolean areOnSameDay = firstUtcCalendar.get(Calendar.DAY_OF_YEAR) == secondUtcCalendar.get(Calendar.DAY_OF_YEAR);		
+		if (!areOnSameDay) {
+			return false;
+		}
+		if (isInFirstTransmissionWindow(firstUtcCalendar.get(Calendar.HOUR_OF_DAY)) && isInFirstTransmissionWindow(secondUtcCalendar.get(Calendar.HOUR_OF_DAY))) {
+			return true;
+		}
+		if (isInSecondTransmissionWindow(firstUtcCalendar.get(Calendar.HOUR_OF_DAY)) && isInSecondTransmissionWindow(secondUtcCalendar.get(Calendar.HOUR_OF_DAY))) {
+			return true;
+		}			
+		return false;		
 	}
 	
 	private Date getNextScheduled() {
@@ -56,6 +76,14 @@ public class TrackerScheduleService {
 		utcCalendar.set(Calendar.SECOND, 0);
 		utcCalendar.add(Calendar.DATE, 1);
 		return utcCalendar.getTime();		
+	}
+	
+	private boolean isInFirstTransmissionWindow(final int utcHours) {
+		return utcHours >= 8 && utcHours < 12;
+	}
+	
+	private boolean isInSecondTransmissionWindow(final int utcHours) {
+		return utcHours >=18 && utcHours < 21;
 	}
 	
 }

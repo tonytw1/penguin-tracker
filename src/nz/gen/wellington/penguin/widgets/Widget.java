@@ -1,6 +1,7 @@
 package nz.gen.wellington.penguin.widgets;
 
 import java.text.DecimalFormat;
+import java.util.Iterator;
 import java.util.List;
 
 import nz.gen.wellington.penguin.R;
@@ -8,6 +9,7 @@ import nz.gen.wellington.penguin.main;
 import nz.gen.wellington.penguin.config.Config;
 import nz.gen.wellington.penguin.data.LocationDAO;
 import nz.gen.wellington.penguin.data.LocationService;
+import nz.gen.wellington.penguin.data.tracker.TrackerScheduleService;
 import nz.gen.wellington.penguin.model.Location;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -36,7 +38,7 @@ public class Widget extends AppWidgetProvider {
 		RemoteViews widgetView = new RemoteViews(context.getPackageName(), R.layout.widget);
 		if (locations != null && !locations.isEmpty()) {
 			Location latestFix = locations.get(0);
-			Location previousFix = extractPreviousFix(locations);
+			Location previousFix = extractPreviousFix(locations, latestFix);
 
 			populateWidget(widgetView, context, latestFix, previousFix);
 		}
@@ -70,11 +72,20 @@ public class Widget extends AppWidgetProvider {
 		widgetView.setOnClickPendingIntent(R.id.widgetLayout, pendingIntent);
 	}
 
-	private Location extractPreviousFix(List<Location> locations) {
-		// TODO As all updates for a given transmission window tend to turn up in the same update,
+	private Location extractPreviousFix(List<Location> locations, Location latestFix) {
+		// As all updates for a given transmission window tend to turn up in the same update,
 		// we should use the last fix, in the previous cluster as the reference.
-		// This will give a more meaningful delta of say, 12km in 7 hours rather then say, 400m in 5 minutes.		
-		return locations.get(1);
+		// This will give a more meaningful delta of say, 12km in 7 hours rather then say 400m in 5 minutes.		
+		Location previousFix = null;
+		TrackerScheduleService trackerScheduleService = new TrackerScheduleService();
+		Iterator<Location> iterator = locations.iterator();
+		while (previousFix == null && iterator.hasNext()) {
+			Location olderLocation = iterator.next();			
+			if (!trackerScheduleService.timesAreWithinTheSameTransmissionWindow(latestFix.getDate(), olderLocation.getDate())) {
+				previousFix = olderLocation;
+			}
+		}		
+		return previousFix;
 	}
 	
 	private PendingIntent createShowArticleIntent(Context context) {
