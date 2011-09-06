@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 
 public class LocationUpdateRunnable implements Runnable {
-	
+		
 	private Context context;
 	private NotificationManager notificationManager;
     
@@ -18,18 +18,18 @@ public class LocationUpdateRunnable implements Runnable {
 	}
 	
 	public void run() {
-		 running = true;
-		 while(running) {
-			 LocationUpdater locationUpdater = new LocationUpdater();
-			 locationUpdater.updateLocations(context, notificationManager);			 
-			 announceBatchFinished();
-             running = false;
-		 }
+		running = true;
+		while(running) {
+			LocationUpdater locationUpdater = new LocationUpdater();
+			locationUpdater.updateLocations(context, notificationManager);			 
+			announceBatchFinished();
+			running = false;
+		}
 	}
 	
 	private void announceBatchFinished() {
 		Intent intent = new Intent(LocationUpdateService.BATCH_COMPLETION);
 		context.sendBroadcast(intent);
 	}
-
+	
 }

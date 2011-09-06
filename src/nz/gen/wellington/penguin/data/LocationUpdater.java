@@ -30,7 +30,7 @@ public class LocationUpdater {
 			Log.i(TAG, "Replacing cached locations with fetched locations");
 			localLocationService.saveLocations(context, fetchedLocations);
 		}
-		 
+		
 		if (existingLocations != null && !existingLocations.isEmpty() && fetchedLocations != null && !fetchedLocations.isEmpty()) {				 
 			checkForAndNotifyOfNewLocationUpdates(existingLocations, fetchedLocations, context, notificationManager);
 		}
