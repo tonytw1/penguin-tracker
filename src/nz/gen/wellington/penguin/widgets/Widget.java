@@ -35,7 +35,10 @@ public class Widget extends AppWidgetProvider {
 	private void refresh(Context context, List<Location> locations, int[] appWidgetIds) {
 		RemoteViews widgetView = new RemoteViews(context.getPackageName(), R.layout.widget);
 		if (locations != null && !locations.isEmpty()) {
-			populateWidget(widgetView, context, locations);
+			Location latestFix = locations.get(0);
+			Location previousFix = extractPreviousFix(locations);
+
+			populateWidget(widgetView, context, latestFix, previousFix);
 		}
 		
 		AppWidgetManager manager = AppWidgetManager.getInstance(context);
@@ -44,26 +47,36 @@ public class Widget extends AppWidgetProvider {
 		}
 	}
 	
-	private void populateWidget(RemoteViews widgetView, Context context, List<Location> locations) {
-		Location latestFix = locations.get(0);
+	private void populateWidget(RemoteViews widgetView, Context context, Location latestFix, Location previousFix) {
+		if (latestFix == null) {
+			return;
+		}
 		widgetView.setTextViewText(R.id.heading, latestFix.timeAgo());
 		widgetView.setTextViewText(R.id.snippet, latestFix.toString());
 		
-		if (locations.size() > 1) {
-			Location previousFix = locations.get(1);
-			double latitudeDelta = latestFix.getLatitude() - previousFix.getLatitude();
-			Log.i(TAG, latestFix.getLatitude() + " - " + previousFix.getLatitude() + " = " + latitudeDelta);
-			double kilometerDelta = latitudeDelta * (CIRCUMFERENCE_OF_THE_EARTH_IN_KILOMETERS / 360);
-			
-			DecimalFormat df = new DecimalFormat("#.#");
-			widgetView.setTextViewText(R.id.delta, df.format(kilometerDelta * -1));
-			widgetView.setTextColor(R.id.delta, kilometerDelta < 0 ? Color.parseColor(Config.DARK_GREEN) : Color.parseColor(Config.DARK_RED));			
+		if (previousFix == null) {
+			return;
 		}
 		
+		double latitudeDelta = latestFix.getLatitude() - previousFix.getLatitude();
+		Log.i(TAG, latestFix.getLatitude() + " - " + previousFix.getLatitude() + " = " + latitudeDelta);
+		double kilometerDelta = latitudeDelta * (CIRCUMFERENCE_OF_THE_EARTH_IN_KILOMETERS / 360);
+			
+		DecimalFormat df = new DecimalFormat("#.#");
+		widgetView.setTextViewText(R.id.delta, df.format(kilometerDelta * -1));
+		widgetView.setTextColor(R.id.delta, kilometerDelta < 0 ? Color.parseColor(Config.DARK_GREEN) : Color.parseColor(Config.DARK_RED));			
+				
 		PendingIntent pendingIntent = createShowArticleIntent(context);
 		widgetView.setOnClickPendingIntent(R.id.widgetLayout, pendingIntent);
 	}
 
+	private Location extractPreviousFix(List<Location> locations) {
+		// TODO As all updates for a given transmission window tend to turn up in the same update,
+		// we should use the last fix, in the previous cluster as the reference.
+		// This will give a more meaningful delta of say, 12km in 7 hours rather then say, 400m in 5 minutes.		
+		return locations.get(1);
+	}
+	
 	private PendingIntent createShowArticleIntent(Context context) {
 		Intent intent = new Intent(context, main.class);
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
