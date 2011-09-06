@@ -39,7 +39,7 @@ public class TrackerScheduleService {
 		firstUtcCalendar.setTime(firstDate);		
 		
 		Calendar secondUtcCalendar = DateTimeHelper.getUTCCalender();
-		firstUtcCalendar.setTime(secondDate);
+		secondUtcCalendar.setTime(secondDate);
 		
 		final boolean areOnSameDay = firstUtcCalendar.get(Calendar.DAY_OF_YEAR) == secondUtcCalendar.get(Calendar.DAY_OF_YEAR);		
 		if (!areOnSameDay) {
