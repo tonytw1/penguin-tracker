@@ -61,7 +61,6 @@ public class Widget extends AppWidgetProvider {
 		}
 		
 		double latitudeDelta = latestFix.getLatitude() - previousFix.getLatitude();
-		Log.i(TAG, latestFix.getLatitude() + " - " + previousFix.getLatitude() + " = " + latitudeDelta);
 		double kilometerDelta = latitudeDelta * (CIRCUMFERENCE_OF_THE_EARTH_IN_KILOMETERS / 360);
 			
 		DecimalFormat df = new DecimalFormat("#.#");
