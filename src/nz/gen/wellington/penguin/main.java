@@ -20,7 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -110,8 +109,11 @@ public class main extends MapActivity {
 	        mapOverlays.add(itemizedOverlay);
 
         } else {
-        	Toast.makeText(this.getApplicationContext(), "Tracking information is not currently available", Toast.LENGTH_LONG);        	
-        }        
+        	TextView status = (TextView) findViewById(R.id.status);
+            status.setText("Tracking data is currently unavailable");
+        	status.setTextColor(Color.parseColor(Config.VERY_DARK_RED));
+        }
+        
 	}
 	
 	private GeoPoint plotAllPoints(List<Location> locations, Drawable marker, Drawable previousMarker) {
