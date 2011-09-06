@@ -3,7 +3,6 @@ package nz.gen.wellington.penguin.data;
 import java.util.List;
 
 import nz.gen.wellington.penguin.R;
-import nz.gen.wellington.penguin.main;
 import nz.gen.wellington.penguin.notification;
 import nz.gen.wellington.penguin.config.Config;
 import nz.gen.wellington.penguin.model.Location;
@@ -48,8 +47,6 @@ public class LocationUpdater {
 			sendNotification(newLatest, context, notificationManager);		 
 		 } else {
 			 Log.i(TAG, "No new location fixes were found in this update");
-				sendNotification(newLatest, context, notificationManager);		 
-
 		 }
 	}
 	
