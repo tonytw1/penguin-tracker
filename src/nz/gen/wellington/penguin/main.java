@@ -97,6 +97,9 @@ public class main extends MapActivity {
         Drawable marker = this.getResources().getDrawable(R.drawable.marker);
 
         itemizedOverlay = new LocationsItemizedOverlay(marker, mapView);
+
+        // Mark the release point
+		createOverlayForLocation(Config.releasePoint, previousMarker);
         
         LocationDAO locationService = new LocationDAO();
         List<Location> locations = locationService.getLocations(this.getBaseContext());
