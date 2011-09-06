@@ -21,7 +21,7 @@ public class KMLHandler extends HandlerBase {
 	private List<Location> points;
 	
 	public List<Location> getPoints() {
-		Log.d(TAG, "Returning " + points.size() + "points");
+		Log.d(TAG, points.size() + " points found in KML file");
 		return points;
 	}
 	

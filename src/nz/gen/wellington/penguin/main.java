@@ -16,7 +16,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -30,9 +29,7 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 public class main extends MapActivity {
-	
-	private static final String TAG = "main";
-	
+		
 	List<Overlay> mapOverlays;
 	LocationsItemizedOverlay itemizedOverlay;
 
@@ -123,7 +120,6 @@ public class main extends MapActivity {
 		int pointCount = 0;
 		for (Location location : locations) {
 			pointCount++;
-			Log.i(TAG, "Adding map point for: " + location + pointCount + ", " + locations.size());
 			OverlayItem overlayitem = createOverlayForLocation(location, pointCount == locations.size() ? marker : previousMarker);
 			lastPoint = overlayitem.getPoint();
 		}
