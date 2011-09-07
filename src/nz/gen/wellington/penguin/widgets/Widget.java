@@ -17,12 +17,10 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 public class Widget extends AppWidgetProvider {
 	
-	private static final String TAG = "Widget";
 	private static final int CIRCUMFERENCE_OF_THE_EARTH_IN_KILOMETERS = 40008;
 
 	@Override
@@ -63,7 +61,7 @@ public class Widget extends AppWidgetProvider {
 		double latitudeDelta = latestFix.getLatitude() - previousFix.getLatitude();
 		double kilometerDelta = latitudeDelta * (CIRCUMFERENCE_OF_THE_EARTH_IN_KILOMETERS / 360);
 			
-		DecimalFormat df = new DecimalFormat("#.#");
+		DecimalFormat df = new DecimalFormat("0.0");
 		widgetView.setTextViewText(R.id.delta, df.format(kilometerDelta * -1));
 		widgetView.setTextColor(R.id.delta, kilometerDelta < 0 ? Color.parseColor(Config.DARK_GREEN) : Color.parseColor(Config.DARK_RED));			
 				
