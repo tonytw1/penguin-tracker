@@ -4,13 +4,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 import nz.gen.wellington.penguin.utils.DateTimeHelper;
-import android.util.Log;
 
 // @NZEmperor "To save battery the tracker is only active from 0800 to 1200 and 1800-2100 UTC every day."
 public class TrackerScheduleService {
 	
-	private static final String TAG = "TrackerScheduleService";
-
 	public String getTrackerStatus() {
 		if (isCurrentlyScheduledToTransmit()) {
 			return "The tracker is scheduled to transmit at this time";
