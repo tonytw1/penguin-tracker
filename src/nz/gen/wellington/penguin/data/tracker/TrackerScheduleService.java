@@ -28,11 +28,7 @@ public class TrackerScheduleService {
 	
 	public boolean timesAreWithinTheSameTransmissionWindow(Date firstDate, Date secondDate) {		
 		final String first = getTransmissionWindowForDate(firstDate);
-		final String second = getTransmissionWindowForDate(secondDate);
-		
-		Log.d(TAG, DateTimeHelper.format(firstDate, "h:mm a, d MMM") + "(" + first + ") - " + 
-			DateTimeHelper.format(secondDate, "h:mm a, d MMM") + "(" + second + ")"); 		
-					
+		final String second = getTransmissionWindowForDate(secondDate);					
 		return first != null && first.equals(second);
 	}
 	
@@ -40,9 +36,9 @@ public class TrackerScheduleService {
 		Calendar utcCalendar = DateTimeHelper.getUTCCalender();
 		utcCalendar.setTime(transmissionTime);		
 		if (isInFirstTransmissionWindow(utcCalendar)) {
-			return DateTimeHelper.format(transmissionTime, utcCalendar.get(Calendar.DAY_OF_YEAR) + "AM");
+			return utcCalendar.get(Calendar.DAY_OF_YEAR) + "a";
 		} else if (isInSecondTransmissionWindow(utcCalendar)) {
-			return DateTimeHelper.format(transmissionTime, utcCalendar.get(Calendar.DAY_OF_YEAR) + "PM");			
+			return utcCalendar.get(Calendar.DAY_OF_YEAR) + "p";			
 		}
 		return null;		
 	}
