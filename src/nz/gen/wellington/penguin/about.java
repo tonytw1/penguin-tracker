@@ -16,7 +16,10 @@ public class about extends Activity {
         StringBuilder text = new StringBuilder();
         text.append("<h4>About</h4>");
         
-        text.append("<p>The <a href=\"http://tinyurl.com/3osqgtl/\">lost emperor penguin 'Happy Feet'</a> is currently making his way home after recovering at Wellington Zoo in New Zealand.");
+        text.append("<p>The <a href=\"http://tinyurl.com/3osqgtl/\">lost emperor penguin 'Happy Feet'</a> is currently making his way home after recovering at Wellington Zoo in New Zealand." +
+        		"<p>He was <a href=\"http://www.niwa.co.nz/node/102641\">released into the Southern Ocean</a> from the NIWA research ship <i>Tangaroa</i> on the" +
+        		" 4th of September.</p>");
+        
         text.append("<p>Happy Feet is wearing a <a href=\"http://blog.tepapa.govt.nz/2011/08/29/happy-feet-gets-technological/\">Sirtrack KiwiSat 202 Satellite Transmitter</a> which will track his progress after he is released into the Southern Ocean. ");
         text.append("The tracker signal is processed by the <a href=\"http://www.argos-system.org/html/system/how_it_works_en.html\">Argos satellite network</a> before been ");
         text.append("published on the <a href=\"http://www.nzemperor.com/\">@NZEmperor</a> website.</p>");
