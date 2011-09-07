@@ -88,9 +88,6 @@ public class main extends MapActivity {
         Drawable marker = this.getResources().getDrawable(R.drawable.marker);
 
         itemizedOverlay = new LocationsItemizedOverlay(marker, mapView);
-
-        // Mark the release point
-		createOverlayForLocation(Config.releasePoint, previousMarker);
         
         LocationDAO locationService = new LocationDAO();
         List<Location> locations = locationService.getLocations(this.getBaseContext());
@@ -99,15 +96,17 @@ public class main extends MapActivity {
 	        if (lastPoint != null) {
 	        	mapView.getController().animateTo(lastPoint);
 	        	mapView.getController().setZoom(11);
-	        }	        
-	        mapOverlays.add(itemizedOverlay);
-
+	        }
+	        
         } else {
         	TextView status = (TextView) findViewById(R.id.status);
             status.setText("Tracking data is currently unavailable");
         	status.setTextColor(Color.parseColor(Config.VERY_DARK_RED));
         }
         
+        // Mark the release point
+		createOverlayForLocation(Config.releasePoint, previousMarker, "Release point");		
+        mapOverlays.add(itemizedOverlay);
 	}
 	
 	private GeoPoint plotAllPoints(List<Location> locations, Drawable marker, Drawable previousMarker) {
@@ -116,17 +115,19 @@ public class main extends MapActivity {
 		int pointCount = 0;
 		for (Location location : locations) {
 			pointCount++;
-			OverlayItem overlayitem = createOverlayForLocation(location, pointCount == locations.size() ? marker : previousMarker);
-			lastPoint = overlayitem.getPoint();
+			
+			if (location.getDate().after(Config.releasePoint.getDate())) {
+				OverlayItem overlayitem = createOverlayForLocation(location, pointCount == locations.size() ? marker : previousMarker, location.timeAgo());
+				lastPoint = overlayitem.getPoint();
+			}
 		}
 		return lastPoint;
 	}
 	
 	
-	private OverlayItem createOverlayForLocation(Location location, Drawable marker) {
+	private OverlayItem createOverlayForLocation(Location location, Drawable marker, String title) {
 		GeoPoint point = GeoPointFactory.createGeoPointForLatLong(location.getLongitude(), location.getLatitude());
-		final String title = location.timeAgo();	
-		final String snippet = location.toString();		
+		final String snippet = location.toString();
 		OverlayItem overlayitem = new OverlayItem(point, title, snippet);
 		overlayitem.setMarker(marker);
         itemizedOverlay.addOverlay(overlayitem);
