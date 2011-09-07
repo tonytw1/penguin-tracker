@@ -18,7 +18,7 @@ import android.util.Log;
 public class LocalLocationService implements LocationService {
 	
 	private static final String TAG = "LocalLocationService";	
-	private static final String CACHE_FILE_NAME = "locations.ser";
+	private static final String CACHE_FILE_NAME = "locations_" + Config.SER_VERSION +".ser";
 
 	public List<Location> getLocations(Context context) {
 		if (!isLocallyCached(context)) {
@@ -29,7 +29,15 @@ public class LocalLocationService implements LocationService {
 		try {
 			FileInputStream fis = FileService.getFileInputStream(context, CACHE_FILE_NAME);
 			ObjectInputStream in = new ObjectInputStream(fis);
-			List<Location> loaded = (List<Location>) in.readObject();
+			
+			List<Location> loaded = null;
+			try {
+				loaded = (List<Location>) in.readObject();
+
+			} catch (Exception e) {
+				Log.e(TAG, "Error while trying to deserialize: " + e.getMessage());
+				loaded = null;
+			}
 			in.close();
 			
 			if (loaded != null) {			
@@ -41,9 +49,8 @@ public class LocalLocationService implements LocationService {
 
 		} catch (IOException ex) {
 			Log.e(TAG, "IO Exception while reading locations");
-		} catch (ClassNotFoundException ex) {
-			Log.e(TAG, "Exception while reading locations");
 		}
+		
 		return null;
 	}
 	
@@ -76,6 +83,3 @@ public class LocalLocationService implements LocationService {
 	}	
 	
 }
-
-
-

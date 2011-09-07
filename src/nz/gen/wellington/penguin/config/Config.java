@@ -12,6 +12,7 @@ public class Config {
 	
 	public static String FEED_URL = "http://www.nzemperor.com/rest/Position.kml";
 	public static final int CACHE_TTL = ONE_MINUTE * 30;
+	public static final String SER_VERSION = "1";
 	
 	public static Location releasePoint = new Location(DateTimeHelper.parseUTCDateTime("2011-09-03T22:30:00Z"), 169.4, -51.7);
 	
@@ -19,6 +20,7 @@ public class Config {
 	public static final String DARK_GREEN = "#00aa00";
 	public static final String VERY_DARK_GREEN = "#006600";
 	public static final String VERY_DARK_RED = "#660000";
+
 	
 	public static boolean areUpdatesEnabled(Context context) {
 		PreferenceManager.getDefaultSharedPreferences(context);
