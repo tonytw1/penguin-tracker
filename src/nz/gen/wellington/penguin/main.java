@@ -38,7 +38,6 @@ public class main extends MapActivity {
         
         MapView mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
-        // TODO center on release point
         
         // TODO Needs to happen on a background thread
         populateMapPoints(mapView);
@@ -88,15 +87,19 @@ public class main extends MapActivity {
         Drawable marker = this.getResources().getDrawable(R.drawable.marker);
 
         itemizedOverlay = new LocationsItemizedOverlay(marker, mapView);
-        
+        OverlayItem releasePointOverlay = createOverlayForLocation(Config.releasePoint, previousMarker, "Release point", Config.releasePoint.toString());
+		mapView.getController().animateTo(releasePointOverlay.getPoint());
+        mapView.getController().setZoom(7);
+                
         LocationDAO locationService = new LocationDAO();
         List<Location> locations = locationService.getLocations(this.getBaseContext());
-        if (locations != null) {
-        	GeoPoint lastPoint = plotAllPoints(locations, marker, previousMarker);	        
-	        if (lastPoint != null) {
-	        	mapView.getController().animateTo(lastPoint);
-	        	mapView.getController().setZoom(11);
-	        }
+        if (locations != null && !locations.isEmpty()) {        	
+        	final Location latestPoint = locations.remove(0);       	
+        	plotPreviousPoints(locations, marker, previousMarker);
+        	
+    		OverlayItem latestOverlay = createOverlayForLocation(latestPoint, marker, latestPoint.timeAgo(), latestPoint.toString());		
+    		mapView.getController().animateTo(latestOverlay.getPoint());
+	        mapView.getController().setZoom(11);
 	        
         } else {
         	TextView status = (TextView) findViewById(R.id.status);
@@ -104,30 +107,20 @@ public class main extends MapActivity {
         	status.setTextColor(Color.parseColor(Config.VERY_DARK_RED));
         }
         
-        // Mark the release point
-		createOverlayForLocation(Config.releasePoint, previousMarker, "Release point");		
-        mapOverlays.add(itemizedOverlay);
+        mapOverlays.add(itemizedOverlay);	// TODO Can we do this after the release point, but before the data loads?
 	}
 	
-	private GeoPoint plotAllPoints(List<Location> locations, Drawable marker, Drawable previousMarker) {
-		GeoPoint lastPoint = null;
+	private void plotPreviousPoints(List<Location> locations, Drawable marker, Drawable previousMarker) {
 		Collections.reverse(locations);
-		int pointCount = 0;
 		for (Location location : locations) {
-			pointCount++;
-			
 			if (location.getDate().after(Config.releasePoint.getDate())) {
-				OverlayItem overlayitem = createOverlayForLocation(location, pointCount == locations.size() ? marker : previousMarker, location.timeAgo());
-				lastPoint = overlayitem.getPoint();
+				createOverlayForLocation(location, previousMarker, location.timeAgo(), location.toString());
 			}
 		}
-		return lastPoint;
 	}
-	
-	
-	private OverlayItem createOverlayForLocation(Location location, Drawable marker, String title) {
+		
+	private OverlayItem createOverlayForLocation(Location location, Drawable marker, String title, String snippet) {
 		GeoPoint point = GeoPointFactory.createGeoPointForLatLong(location.getLongitude(), location.getLatitude());
-		final String snippet = location.toString();
 		OverlayItem overlayitem = new OverlayItem(point, title, snippet);
 		overlayitem.setMarker(marker);
         itemizedOverlay.addOverlay(overlayitem);
