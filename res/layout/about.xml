@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-		
-    <WebView android:id="@+id/about"  
-              android:layout_width="fill_parent"  
-              android:layout_height="fill_parent"  
-             />  
-	
+	<ScrollView android:layout_height="wrap_content" android:id="@+id/scrollView1"
+		android:layout_width="fill_parent" android:fillViewport="true">
+		<LinearLayout android:layout_width="fill_parent"
+			android:id="@+id/linearLayout1" android:layout_height="fill_parent"
+			android:orientation="vertical">
+
+			<ImageView android:id="@+id/releaseImage"
+				android:layout_width="fill_parent" android:src="@drawable/release"
+				android:scaleType="fitXY" android:adjustViewBounds="true"
+				android:layout_height="wrap_content"></ImageView>
+
+			<TextView android:layout_height="wrap_content"
+				android:text="Have tracker - will travel. The emperor penguin prior to been released from the stern ramp of the Tangaroa. Photo: NIWA"
+				android:id="@+id/textView1" android:layout_width="wrap_content" android:padding="1pt" android:textColor="#000" android:background="#FFF" android:textSize="4pt"></TextView>
+
+			<WebView android:id="@+id/about" android:layout_width="fill_parent"
+				android:layout_height="fill_parent" />
+
+		</LinearLayout>
+	</ScrollView>
+
 </LinearLayout>

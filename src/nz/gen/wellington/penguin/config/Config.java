@@ -20,7 +20,6 @@ public class Config {
 	public static final String DARK_GREEN = "#00aa00";
 	public static final String VERY_DARK_GREEN = "#006600";
 	public static final String VERY_DARK_RED = "#660000";
-
 	
 	public static boolean areUpdatesEnabled(Context context) {
 		PreferenceManager.getDefaultSharedPreferences(context);

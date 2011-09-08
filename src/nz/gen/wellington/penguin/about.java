@@ -13,11 +13,10 @@ public class about extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE); 
         setContentView(R.layout.about);       
         
-        StringBuilder text = new StringBuilder();
-        text.append("<h4>About</h4>");
-        
+        StringBuilder text = new StringBuilder();        
         text.append("<p>The <a href=\"http://tinyurl.com/3osqgtl/\">lost emperor penguin 'Happy Feet'</a> is currently making his way home after recovering at Wellington Zoo in New Zealand." +
-        		"<p>He was <a href=\"http://www.niwa.co.nz/node/102641\">released into the Southern Ocean</a> from the NIWA research ship <i>Tangaroa</i> on the" +
+        		"<p>He was <a href=\"http://www.niwa.co.nz/node/102641\">released into the Southern Ocean</a> from the " +
+        		"<a href=\"http://www.niwa.co.nz\">NIWA</a> research ship <i>Tangaroa</i> on the" +
         		" 4th of September.</p>");
         
         text.append("<p>Happy Feet is wearing a <a href=\"http://blog.tepapa.govt.nz/2011/08/29/happy-feet-gets-technological/\">Sirtrack KiwiSat 202 Satellite Transmitter</a> which will track his progress after he is released into the Southern Ocean. ");
