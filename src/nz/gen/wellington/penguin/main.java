@@ -1,10 +1,12 @@
 package nz.gen.wellington.penguin;
 
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 
 import nz.gen.wellington.penguin.config.Config;
 import nz.gen.wellington.penguin.data.LocationDAO;
+import nz.gen.wellington.penguin.data.distances.DistanceCalculator;
 import nz.gen.wellington.penguin.data.tracker.TrackerScheduleService;
 import nz.gen.wellington.penguin.model.Location;
 import nz.gen.wellington.penguin.views.GeoPointFactory;
@@ -97,7 +99,11 @@ public class main extends MapActivity {
         	final Location latestPoint = locations.remove(0);       	
         	plotPreviousPoints(locations, marker, previousMarker);
         	
-    		OverlayItem latestOverlay = createOverlayForLocation(latestPoint, marker, latestPoint.timeAgo(), latestPoint.toString());		
+    		String latestDescription = latestPoint.toString();
+    		DecimalFormat df = new DecimalFormat("0.0");
+    		latestDescription = latestDescription + ".\n\n" + df.format(new DistanceCalculator().getSoutherlyDistanceBetween(Config.releasePoint, latestPoint)) + " kilometers south of release point.";
+
+    		OverlayItem latestOverlay = createOverlayForLocation(latestPoint, marker, latestPoint.timeAgo(), latestDescription);		
     		mapView.getController().animateTo(latestOverlay.getPoint());
 	        mapView.getController().setZoom(11);
 	        
