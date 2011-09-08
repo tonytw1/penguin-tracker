@@ -9,6 +9,7 @@ import nz.gen.wellington.penguin.main;
 import nz.gen.wellington.penguin.config.Config;
 import nz.gen.wellington.penguin.data.LocationDAO;
 import nz.gen.wellington.penguin.data.LocationService;
+import nz.gen.wellington.penguin.data.distances.DistanceCalculator;
 import nz.gen.wellington.penguin.data.tracker.TrackerScheduleService;
 import nz.gen.wellington.penguin.model.Location;
 import android.app.PendingIntent;
@@ -21,8 +22,6 @@ import android.widget.RemoteViews;
 
 public class Widget extends AppWidgetProvider {
 	
-	private static final int CIRCUMFERENCE_OF_THE_EARTH_IN_KILOMETERS = 40008;
-
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
@@ -58,8 +57,7 @@ public class Widget extends AppWidgetProvider {
 			return;
 		}
 		
-		double latitudeDelta = latestFix.getLatitude() - previousFix.getLatitude();
-		double kilometerDelta = latitudeDelta * (CIRCUMFERENCE_OF_THE_EARTH_IN_KILOMETERS / 360);
+		final double kilometerDelta = new DistanceCalculator().getSoutherlyDistanceBetween(latestFix, previousFix);
 			
 		DecimalFormat df = new DecimalFormat("0.0");
 		widgetView.setTextViewText(R.id.delta, df.format(kilometerDelta * -1));
@@ -68,7 +66,7 @@ public class Widget extends AppWidgetProvider {
 		PendingIntent pendingIntent = createShowArticleIntent(context);
 		widgetView.setOnClickPendingIntent(R.id.widgetLayout, pendingIntent);
 	}
-
+	
 	private Location extractPreviousFix(List<Location> locations, Location latestFix) {
 		// As all updates for a given transmission window tend to turn up in the same update,
 		// we should use the last fix, in the previous cluster as the reference.
